@@ -1,13 +1,76 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>koftea</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./src/style.css">
+    <title>KoffTea</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/logo.png" alt="Logo de KoffTea">
+            </a>
+        </div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Buscar...">
+        </div>
+        <nav class="nav-icons">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-user"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-heart"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Lorem Ipsum dolor sit amet, consectetur adipiscing elit.</h1>
+                <p <link rel="icon" type="image/x-icon" href="images/favicon.ico">class="quote">
+                    "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                </p>
+                <button>Descubrir</button>
+            </div>
+            <div class="hero-img">
+                <img src="./images/products/arab_coffee.png" alt="Paquete de café">
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Explora nuestras categorías</h2>
+            <div class="feature-items">
+                <article>
+                    <img src="./images/category/capsula.png" alt="Cápsulas de café">
+                    <h3>Cápsulas</h3>
+                </article>
+                <article>
+                    <img src="./images/category/grano.png" alt="Granos de café">
+                    <h3>Grano</h3>
+                </article>
+                <article>
+                    <img src="./images/category/molido.png" alt="Café soluble">
+                    <h3>Soluble</h3>
+                </article>
+                <article>
+                    <img src="./images/category/te.jpg" alt="Té">
+                    <h3>Té</h3>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 KoffTea. Todos los derechos reservados.</p>
+      <p>
+        <a href="formulario.php">Formulario de contacto</a>
+      </p>
+    </footer>
+
+</body>
 </html>

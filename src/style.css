@@ -1,96 +1,332 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    background-color: #fefaf6;
+    color: #222;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header"
+        "main main main"
+        "footer footer footer";
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Header */
+.header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background-color: #1c1c1c;
+    color: white;
+    padding: 0.8rem 2rem;
+    gap: 2rem;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
+    justify-self: start;
 }
 
-.card {
-  padding: 2em;
+.logo img {
+    height: 40px;
 }
 
-.read-the-docs {
-  color: #888;
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
+.search-bar i {
+    color: #666;
+    margin-right: 0.5rem;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+/* Iconos de navegación */
+.nav-icons {
+    justify-self: end;
+}
+
+.nav-icons ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-icons a {
+    color: white;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-icons a:hover {
+    color: #d6cfc8;
+}
+
+/* Main */
+main {
+    grid-area: main;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "hero"
+        "features";
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Hero */
+.hero {
+    grid-area: hero;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "text image";
+    align-items: center;
+    background-color: #f9f1e6;
+    padding: 3rem 6rem;
+    gap: 2rem;
+}
+
+.hero-text {
+    grid-area: text;
+    max-width: 600px;
+}
+
+.hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: #2c2c2c;
+    font-weight: 700;
+}
+
+.hero-text .quote {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.hero-text button {
+    background-color: #5c4033;
+    color: white;
+    border: none;
+    padding: 0.9rem 1.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.hero-text button:hover {
+    background-color: #7a5849;
+    transform: scale(1.05);
+}
+
+/* Imagen principal */
+.hero-img {
+    grid-area: image;
+}
+
+.hero-img img {
+    width: 260px;
+    height: auto;
+}
+
+/* Sección de categorías */
+.features {
+    grid-area: features;
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: white;
+}
+
+.features h2 {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    color: #2b2b2b;
+    font-weight: 700;
+}
+
+.feature-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    justify-items: center;
+    gap: 2rem;
+}
+
+.feature-items article {
+    text-align: center;
+    max-width: 150px;
+    transition: transform 0.3s ease;
+}
+
+.feature-items article:hover {
+    transform: translateY(-5px);
+}
+
+.feature-items img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.feature-items h3 {
+    font-weight: 600;
+    color: #4a3f35;
+}
+
+/* ===== Footer ===== */
+footer {
+    grid-area: footer;
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #c89b3c;
+    text-decoration: none;
+    margin-left: 8px;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ===== Página del formulario ===== */
+form label {
+    display: block;
+    margin: 0.5rem 0 0.3rem;
+    text-align: left;
+    color: #333;
+}
+
+/* Inputs y textarea */
+form input,
+form textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: #5c4033;
+    outline: none;
+}
+
+/* Botón principal */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    background-color: #5c4033;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+    background-color: #7a5849;
+}
+
+/* Mensaje de estado */
+#mensaje-estado {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+/* Estilo para los checkboxes del formulario */
+.checkbox-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+    transform: scale(1.1); /* hace la casilla un poco más grande */
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.checkbox-group label a {
+    color: #5c4033;
+    text-decoration: none;
+}
+
+#acepto-label a:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------
+   🔹 CENTRADO DEL FORMULARIO (solo para form-page)
+-------------------------------------------------- */
+body.form-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.form-page .container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.form-page .container form {
+    background-color: white;
+    padding: 3rem 4rem; /* más espacio interno */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* ocupar todo el contenedor disponible */
+    max-width: 700px; /* aumentar el tamaño máximo */
+    text-align: center;
 }

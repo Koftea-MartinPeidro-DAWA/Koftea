@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  php-dev:
+    # Usamos una imagen base de PHP
+    image: php:8.2-cli
+    # Monta el código fuente en el directorio de trabajo del contenedor
+    volumes:
+      - .:/var/www/html
+    # Mapea el puerto 8000 del contenedor a tu máquina host
+    ports:
+      - "8080:8000"
+    # El comando para iniciar el servidor de desarrollo de PHP
+    command: php -S 0.0.0.0:8000 -t /var/www/html
+    container_name: koftea_php_dev
