@@ -1,14 +1,46 @@
-
 services:
-  php-dev:
-    # Usamos una imagen base de PHP
-    image: php:8.2-cli
-    # Monta el código fuente en el directorio de trabajo del contenedor
-    volumes:
-      - .:/var/www/html
-    # Mapea el puerto 8000 del contenedor a tu máquina host
+  jsonserver:                    # <<— AÇÍ, DINS DE "services:"
+      image: node:20-alpine
+      container_name: jsonserver_pi
+      working_dir: /app
+      command: sh -c "npm i -g json-server && json-server --watch /data/productos.json --host 0.0.0.0 --port 3000"
+      volumes:
+        - ./data:/data
+      ports:
+        - "3000:3000"
+      restart: unless-stopped
+      networks: [web]
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: webserver_pi
     ports:
-      - "8081:8001"
-    # El comando para iniciar el servidor de desarrollo de PHP
-    command: php -S 0.0.0.0:8000 -t /var/www/html
-    container_name: koftea_php_dev
+      - "80:80"                      # canvia a "8080:80" si tens el 80 ocupat
+    volumes:
+      - ./src:/var/www/php
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      php:
+        condition: service_healthy
+    networks: [web]
+    restart: unless-stopped
+
+  php:
+    build:
+      context: ./.docker/php
+    container_name: php_pi
+    working_dir: /var/www/php
+    expose: ["9000"]
+    volumes:
+      - ./src:/var/www/php
+      - ./.docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9001/fpm-ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks: [web]
+    restart: unless-stopped
+
+networks:
+  web:
+    driver: bridge
