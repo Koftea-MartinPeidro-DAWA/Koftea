@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Merriweather:wght@400;700&display=swap');
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4ecd8;
+    font-family: 'Lora', serif;
+    color: #2a2a2a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background-color: #f9f6ee;
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 420px;
+}
+
+h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 2rem;
+    text-align: center;
+    color: #3e3a2f;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #b9a177;
+    display: inline-block;
+    padding-bottom: 0.4rem;
+}
+
+/* Labels e inputs */
+form label {
+    display: block;
+    margin: 0.5rem 0 0.3rem;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #d4c6a8;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+form input:focus {
+    border-color: #7b6a58;
+    outline: none;
+}
+
+/* Botón */
+button {
+    background-color: #5c4033;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #7a5849;
+}
+
+/* Mensaje de estado */
+#mensaje-estado {
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #4a5133;
+}
+
+/* Enlace a login */
+p a {
+    color: #5c4033;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

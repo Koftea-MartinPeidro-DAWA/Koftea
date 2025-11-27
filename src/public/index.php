@@ -20,7 +20,7 @@
         </div>
         <nav class="nav-icons">
             <ul>
-                <li><a href="#"><i class="fa-solid fa-user"></i></a></li>
+                <li><a href="auth/profile.php"><i class="fa-solid fa-user"></i></a></li>
                 <li><a href="#"><i class="fa-solid fa-heart"></i></a></li>
                 <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
@@ -83,6 +83,7 @@
         <p>&copy; 2025 KoffTea Times · Inspirando momentos de lectura y aroma.</p>
         <p>
             <a href="formulario.php">Formulario de contacto</a>
+            <a href="cataleg_processor.php">Formulario de subida</a>
         </p>
     </footer>
 </html>

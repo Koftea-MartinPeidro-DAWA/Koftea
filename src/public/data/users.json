@@ -1,0 +1,22 @@
+{
+    "usuaris": [
+        {
+            "id": 1,
+            "nom_usuari": "Martin",
+            "contrasenya": "$2y$10$\/treXUWbjLmgKrR9snSuEeDPwStGv6ZNkq2VRolT5EwqTzY\/2pr82",
+            "email": "fdsg@fdhh.com",
+            "nom": "Mart\u00edn",
+            "cognoms": "Peidro",
+            "data_registre": "2025-11-27T14:25:12Z"
+        },
+        {
+            "id": 2,
+            "nom_usuari": "proba",
+            "contrasenya": "$2y$10$CcuaMycukVRQRulP.gTWyO88eZHz5WMgYb4aMjHjmn6E88.\/IVeLG",
+            "email": "peidromartin@gmail.com",
+            "nom": "Mart\u00edn",
+            "cognoms": "Peidro",
+            "data_registre": "2025-11-27T14:26:44Z"
+        }
+    ]
+}
