@@ -157,32 +157,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="css/cataleg.css">
-    <title>Importar productes · KoffTea</title>
+    <title>Importar productos · KoffTea</title>
 </head>
 <body>
 
 <header class="header">
-    <h1><i class="fa-solid fa-file-import"></i> Importar productes</h1>
-    <a href="index.php"><i class="fa-solid fa-house"></i> Tornar a l'inici</a>
+    <h1><i class="fa-solid fa-file-import"></i> Importar productos</h1>
+    <a href="index.php"><i class="fa-solid fa-house"></i> Volver al inicio</a>
 </header>
 
 <main>
     <div class="card">
-        <h2><i class="fa-solid fa-table"></i> Càrrega de catàleg Excel</h2>
-        <p class="subtitle">Importa el fitxer Excel del client per actualitzar automàticament el catàleg de productes.</p>
+        <h2><i class="fa-solid fa-table"></i> Carga de catálogo Excel</h2>
+        <p class="subtitle">Importa el archivo Excel del cliente para actualizar automáticamente el catálogo de productos.</p>
 
         <form method="POST" enctype="multipart/form-data" id="uploadForm">
             <label for="excel" id="file-label">
                 <div class="upload-area" id="dropZone">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <p>Fes clic per seleccionar o arrossega el fitxer aquí</p>
-                    <p class="formats">Formats acceptats: .xlsx, .xls</p>
+                    <p>Haz clic para seleccionar o arrastra el archivo aquí</p>
+                    <p class="formats">Formatos aceptados: .xlsx, .xls</p>
                     <span id="file-name"></span>
                 </div>
             </label>
             <input type="file" name="excel" id="excel" accept=".xlsx,.xls" required style="display:none">
             <button type="submit" class="btn">
-                <i class="fa-solid fa-upload"></i> Importar productes
+                <i class="fa-solid fa-upload"></i> Importar productos
             </button>
         </form>
 
@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if (isset($importResult['error'])): ?>
                 <div class="result error">
                     <div class="result-title">
-                        <i class="fa-solid fa-circle-xmark"></i> Error en la importació
+                        <i class="fa-solid fa-circle-xmark"></i> Error en la importación
                     </div>
                     <p><?= htmlspecialchars($importResult['error'], ENT_QUOTES, 'UTF-8') ?></p>
                 </div>
@@ -198,16 +198,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php else: ?>
                 <div class="result success">
                     <div class="result-title">
-                        <i class="fa-solid fa-circle-check"></i> Importació completada
+                        <i class="fa-solid fa-circle-check"></i> Importación completada
                     </div>
                     <div class="stats">
                         <div class="stat">
                             <div class="num"><?= $importResult['total'] ?></div>
-                            <div class="lbl">Productes importats</div>
+                            <div class="lbl">Productos importados</div>
                         </div>
                         <div class="stat">
                             <div class="num"><?= count($importResult['errors']) ?></div>
-                            <div class="lbl">Files ignorades</div>
+                            <div class="lbl">Filas ignoradas</div>
                         </div>
                     </div>
                     <div class="meta">
@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <?php if (!empty($importResult['errors'])): ?>
                         <div class="errors-list">
-                            <p><i class="fa-solid fa-triangle-exclamation"></i> Files amb errors o duplicats:</p>
+                            <p><i class="fa-solid fa-triangle-exclamation"></i> Filas con errores o duplicados:</p>
                             <ul>
                                 <?php foreach ($importResult['errors'] as $err): ?>
                                     <li><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></li>

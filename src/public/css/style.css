@@ -446,17 +446,16 @@ footer {
     border-top: 2px solid #b9a177;
 }
 
-/* ===== Página del formulario ===== */
-form label {
+/* ===== Formulario de contacto (solo .form-page) ===== */
+.form-page form label {
     display: block;
     margin: 0.5rem 0 0.3rem;
     text-align: left;
     color: #333;
 }
 
-/* Inputs y textarea */
-form input,
-form textarea {
+.form-page form input,
+.form-page form textarea {
     width: 100%;
     padding: 0.7rem;
     border: 1px solid #ccc;
@@ -466,14 +465,13 @@ form textarea {
     transition: border 0.3s ease;
 }
 
-form input:focus,
-form textarea:focus {
+.form-page form input:focus,
+.form-page form textarea:focus {
     border-color: #5c4033;
     outline: none;
 }
 
-/* Botón principal */
-button {
+.form-page button {
     background-color: #5c4033;
     color: white;
     border: none;
@@ -484,17 +482,15 @@ button {
     width: 100%;
 }
 
-button:hover {
+.form-page button:hover {
     background-color: #7a5849;
 }
 
-/* Mensaje de estado */
 #mensaje-estado {
     margin-top: 1rem;
     font-weight: bold;
 }
 
-/* Estilo para los checkboxes del formulario */
 .checkbox-group {
     text-align: left;
     margin-bottom: 1rem;
@@ -503,7 +499,7 @@ button:hover {
 .checkbox-group input[type="checkbox"] {
     width: auto;
     margin-right: 0.5rem;
-    transform: scale(1.1); /* hace la casilla un poco más grande */
+    transform: scale(1.1);
     cursor: pointer;
 }
 
