@@ -223,6 +223,25 @@ body {
     transform: scale(1.03);
 }
 
+/* ── Header title / back link (páginas simples) ── */
+.header-title {
+    font-size: 1rem;
+    color: #d4c6a8;
+    flex: 1;
+}
+.header-back {
+    color: #d4c6a8;
+    text-decoration: none;
+    font-size: .9rem;
+    padding: .4rem .75rem;
+    border-radius: 6px;
+    transition: background .2s, color .2s;
+}
+.header-back:hover {
+    background: rgba(185,161,119,.2);
+    color: #f4ecd8;
+}
+
 /* ── Feature card links ── */
 .feature-items article a {
     text-decoration: none;

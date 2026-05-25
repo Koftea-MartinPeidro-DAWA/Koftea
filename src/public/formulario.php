@@ -66,12 +66,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Contacto Kofftea</title>
+    <title>Contacto · KoffTea</title>
+    <link rel="icon" type="image/x-icon" href="images/logo.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="form-page">
+
+<header class="header">
+    <div class="logo">
+        <a href="index.php" aria-label="KoffTea - Inicio">
+            <img src="images/logo.png" alt="KoffTea">
+        </a>
+    </div>
+    <span class="header-title"><i class="fa-solid fa-envelope"></i> Formulario de contacto</span>
+    <a href="index.php" class="header-back"><i class="fa-solid fa-house"></i> Volver al inicio</a>
+</header>
+
     <div class="container">
 
         <form action="" method="POST" enctype="multipart/form-data">
