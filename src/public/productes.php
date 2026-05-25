@@ -5,7 +5,7 @@ $dataFile = __DIR__ . "/data/productos.json";
 $data     = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
 $productes = $data['productes'] ?? [];
 
-// Mapa de categoria → imatge
+// Mapa de categoria → imagen
 $catImg = [
     'Grano'    => 'images/category/grano.jpg',
     'Molido'   => 'images/category/molido.jpg',
@@ -26,7 +26,7 @@ function stars(int $n = 4): string {
 $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 ?>
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,48 +34,48 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/productes.css">
-    <title>Productes · KoffTea</title>
+    <title>Productos · KoffTea</title>
 </head>
 <body>
 
-<a class="skip-link" href="#main">Saltar al contingut</a>
+<a class="skip-link" href="#main">Saltar al contenido</a>
 
 <header class="header">
     <div class="logo">
-        <a href="index.php" aria-label="KoffTea - Inici">
+        <a href="index.php" aria-label="KoffTea - Inicio">
             <img src="images/logo.png" alt="KoffTea">
         </a>
     </div>
 
-    <nav class="main-nav" id="main-nav" aria-label="Navegació principal">
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
         <ul>
-            <li><a href="index.php">Inici</a></li>
-            <li><a href="productes.php" class="active" aria-current="page">Productes</a></li>
-            <li><a href="formulario.php">Contacte</a></li>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="productes.php" class="active" aria-current="page">Productos</a></li>
+            <li><a href="formulario.php">Contacto</a></li>
         </ul>
     </nav>
 
-    <div class="header-right">
-        <form class="search-bar" role="search" onsubmit="handleSearch(event)">
-            <label for="search-input" class="visually-hidden">Cerca productes</label>
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <input type="search" id="search-input" name="q" placeholder="Buscar cafés o tés...">
-        </form>
+    <form class="search-bar" role="search" onsubmit="handleSearch(event)">
+        <label for="search-input" class="visually-hidden">Buscar productos</label>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input type="search" id="search-input" name="q" placeholder="Buscar cafés o tés...">
+    </form>
 
-        <nav class="nav-icons" aria-label="Accions d'usuari">
+    <div class="header-right">
+        <nav class="nav-icons" aria-label="Acciones de usuario">
             <ul>
                 <li>
-                    <a href="auth/profile.php" aria-label="Perfil d'usuari">
+                    <a href="auth/profile.php" aria-label="Perfil de usuario">
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" aria-label="Llista de desitjos">
+                    <a href="#" aria-label="Lista de deseos">
                         <i class="fa-solid fa-heart" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li class="cart-wrapper">
-                    <button class="cart-btn" aria-label="Carret de compra" aria-expanded="false">
+                    <button class="cart-btn" aria-label="Carrito de compra" aria-expanded="false">
                         <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                         <span class="cart-badge" id="cart-badge" hidden>0</span>
                     </button>
@@ -83,15 +83,15 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
             </ul>
         </nav>
 
-        <button class="hamburger" aria-label="Obrir menú" aria-expanded="false" aria-controls="main-nav">
+        <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
             <span></span><span></span><span></span>
         </button>
     </div>
 </header>
 
-<!-- Mini-cart -->
-<div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carret de compra" hidden>
-    <div class="mini-cart-header"><i class="fa-solid fa-cart-shopping"></i> El teu carret</div>
+<!-- Mini-carrito -->
+<div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carrito de compra" hidden>
+    <div class="mini-cart-header"><i class="fa-solid fa-cart-shopping"></i> Tu carrito</div>
     <div class="mini-cart-items" id="mini-cart-items"></div>
     <div class="mini-cart-footer">
         <span>Total: <strong id="mini-cart-total">0,00 €</strong></span>
@@ -100,20 +100,20 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 </div>
 
 <!-- Breadcrumb -->
-<nav class="breadcrumb" aria-label="Ruta de navegació">
-    <a href="index.php">Inici</a>
+<nav class="breadcrumb" aria-label="Ruta de navegación">
+    <a href="index.php">Inicio</a>
     <span aria-hidden="true">›</span>
-    <span aria-current="page">Productes</span>
+    <span aria-current="page">Productos</span>
 </nav>
 
 <div class="page-productes" id="main">
 
-    <!-- Filtres -->
-    <aside class="filters" aria-label="Filtres de productes">
-        <h2><i class="fa-solid fa-sliders"></i> Filtres</h2>
+    <!-- Filtros -->
+    <aside class="filters" aria-label="Filtros de productos">
+        <h2><i class="fa-solid fa-sliders"></i> Filtros</h2>
 
         <div class="filter-group">
-            <h3>Categoria</h3>
+            <h3>Categoría</h3>
             <?php foreach ($categories as $cat): ?>
                 <label>
                     <input type="checkbox" class="filter-cat" value="<?= htmlspecialchars($cat) ?>">
@@ -123,34 +123,34 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
         </div>
 
         <div class="filter-group">
-            <h3>Preu</h3>
+            <h3>Precio</h3>
             <div class="price-inputs">
-                <input type="number" id="price-min" placeholder="0" min="0" step="0.5" aria-label="Preu mínim">
+                <input type="number" id="price-min" placeholder="0" min="0" step="0.5" aria-label="Precio mínimo">
                 <span>—</span>
-                <input type="number" id="price-max" placeholder="Max" min="0" step="0.5" aria-label="Preu màxim">
+                <input type="number" id="price-max" placeholder="Máx" min="0" step="0.5" aria-label="Precio máximo">
             </div>
         </div>
 
         <div class="filter-group">
-            <h3>Disponibilitat</h3>
+            <h3>Disponibilidad</h3>
             <label class="toggle-label">
                 <span class="toggle">
-                    <input type="checkbox" id="filter-stock" aria-label="Només productes amb estoc">
+                    <input type="checkbox" id="filter-stock" aria-label="Solo productos con stock">
                     <span class="toggle-slider"></span>
                 </span>
-                Només amb estoc
+                Solo con stock
             </label>
         </div>
 
         <button class="btn-clear" id="btn-clear-filters">
-            <i class="fa-solid fa-rotate-left"></i> Netejar filtres
+            <i class="fa-solid fa-rotate-left"></i> Limpiar filtros
         </button>
     </aside>
 
-    <!-- Productes -->
+    <!-- Productos -->
     <section class="products-area" aria-live="polite">
-        <h1>Tots els productes</h1>
-        <p class="products-count" id="products-count"><?= count($productes) ?> productes</p>
+        <h1>Todos los productos</h1>
+        <p class="products-count" id="products-count"><?= count($productes) ?> productos</p>
 
         <div class="products-grid" id="products-grid">
             <?php foreach ($productes as $p):
@@ -171,13 +171,13 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
                     <img src="<?= $img ?>" alt="<?= $nombre ?>" loading="lazy">
                     <span class="badge-categoria"><?= $cat ?></span>
                     <?php if (!$inStock): ?>
-                        <span class="badge-stock-out">Sense estoc</span>
+                        <span class="badge-stock-out">Sin stock</span>
                     <?php endif; ?>
                 </div>
                 <div class="card-body">
                     <p class="card-nombre"><?= $nombre ?></p>
                     <p class="card-origen"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <?= $origen ?></p>
-                    <p class="card-stars" aria-label="Valoració: 4 de 5 estrelles"><?= stars(4) ?></p>
+                    <p class="card-stars" aria-label="Valoración: 4 de 5 estrellas"><?= stars(4) ?></p>
                     <p class="card-precio"><?= $precio ?> €</p>
                     <p class="card-formato"><?= $formato ?></p>
                 </div>
@@ -188,11 +188,11 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
                         data-categoria="<?= $cat ?>"
                         <?= $inStock ? '' : 'disabled' ?>
                         onclick="addToCart({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
-                        aria-label="<?= $inStock ? "Afegir $nombre al carret" : "$nombre sense estoc" ?>">
+                        aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "$nombre sin stock" ?>">
                     <?php if ($inStock): ?>
-                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Afegir al carret
+                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Añadir al carrito
                     <?php else: ?>
-                        <i class="fa-solid fa-ban" aria-hidden="true"></i> Sense estoc
+                        <i class="fa-solid fa-ban" aria-hidden="true"></i> Sin stock
                     <?php endif; ?>
                 </button>
             </article>
@@ -200,33 +200,33 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 
             <div class="empty-state" id="empty-state" hidden>
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <p>Cap producte coincideix amb els filtres seleccionats.</p>
+                <p>Ningún producto coincide con los filtros seleccionados.</p>
             </div>
         </div>
     </section>
 </div>
 
 <footer>
-    <p>&copy; 2025 KoffTea Times · Inspirant moments de lectura i aroma.</p>
+    <p>&copy; 2025 KoffTea Times · Inspirando momentos de lectura y aroma.</p>
     <p>
-        <a href="formulario.php">Contacte</a> ·
-        <a href="cataleg_processor.php">Importar catàleg</a>
+        <a href="formulario.php">Contacto</a> ·
+        <a href="cataleg_processor.php">Importar catálogo</a>
     </p>
 </footer>
 
 <script src="js/cart.js"></script>
 <script>
-// ── Filtering ──
+// ── Filtrado ──
 const cards      = Array.from(document.querySelectorAll('.product-card'));
 const emptyState = document.getElementById('empty-state');
 const countEl    = document.getElementById('products-count');
 
 function applyFilters() {
-    const cats     = [...document.querySelectorAll('.filter-cat:checked')].map(c => c.value);
-    const minPrice = parseFloat(document.getElementById('price-min').value) || 0;
-    const maxPrice = parseFloat(document.getElementById('price-max').value) || Infinity;
+    const cats      = [...document.querySelectorAll('.filter-cat:checked')].map(c => c.value);
+    const minPrice  = parseFloat(document.getElementById('price-min').value) || 0;
+    const maxPrice  = parseFloat(document.getElementById('price-max').value) || Infinity;
     const onlyStock = document.getElementById('filter-stock').checked;
-    const query    = document.getElementById('search-input')?.value.toLowerCase() || '';
+    const query     = document.getElementById('search-input')?.value.toLowerCase() || '';
 
     let visible = 0;
     cards.forEach(card => {
@@ -246,7 +246,7 @@ function applyFilters() {
     });
 
     emptyState.hidden = visible > 0;
-    countEl.textContent = `${visible} productes`;
+    countEl.textContent = `${visible} productos`;
 }
 
 document.querySelectorAll('.filter-cat, #filter-stock').forEach(el =>
@@ -270,7 +270,7 @@ function handleSearch(e) {
     applyFilters();
 }
 
-// ── Init from URL params ──
+// ── Inicializar desde parámetros URL ──
 (function() {
     const p = new URLSearchParams(window.location.search);
     const cat = p.get('cat');

@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nova_pass   = $_POST['nova_contrasenya'] ?? '';
 
     if (!empty($nou_email) && !filter_var($nou_email, FILTER_VALIDATE_EMAIL)) {
-        $missatge = "El format de l'email no és vàlid.";
+        $missatge = "El formato del email no es válido.";
         $tipus    = "error";
     } else {
         $usuariActual['email']   = $nou_email   ?: $usuariActual['email'];
@@ -50,13 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         json_write('../data/users.json', $data);
-        $missatge = "Perfil actualitzat correctament!";
+        $missatge = "¡Perfil actualizado correctamente!";
         $tipus    = "success";
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <header class="header">
     <h1><i class="fa-solid fa-mug-hot"></i> KoffTea</h1>
-    <a href="../index.php"><i class="fa-solid fa-house"></i> Tornar a l'inici</a>
+    <a href="../index.php"><i class="fa-solid fa-house"></i> Volver al inicio</a>
 </header>
 
 <main>
@@ -90,12 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        value="<?= htmlspecialchars($usuariActual['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
             </div>
             <div class="field">
-                <label for="nom"><i class="fa-solid fa-id-card"></i> Nom</label>
+                <label for="nom"><i class="fa-solid fa-id-card"></i> Nombre</label>
                 <input type="text" id="nom" name="nom"
                        value="<?= htmlspecialchars($usuariActual['nom'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
             </div>
             <div class="field">
-                <label for="cognoms"><i class="fa-solid fa-id-card"></i> Cognoms</label>
+                <label for="cognoms"><i class="fa-solid fa-id-card"></i> Apellidos</label>
                 <input type="text" id="cognoms" name="cognoms"
                        value="<?= htmlspecialchars($usuariActual['cognoms'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
             </div>
@@ -103,18 +103,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <hr class="divider">
 
             <div class="field">
-                <label for="nova_contrasenya"><i class="fa-solid fa-key"></i> Nova contrasenya</label>
+                <label for="nova_contrasenya"><i class="fa-solid fa-key"></i> Nueva contraseña</label>
                 <input type="password" id="nova_contrasenya" name="nova_contrasenya"
-                       placeholder="Deixa en blanc per no canviar-la">
+                       placeholder="Déjalo en blanco para no cambiarla">
             </div>
 
             <button type="submit" class="btn">
-                <i class="fa-solid fa-floppy-disk"></i> Guardar canvis
+                <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
             </button>
         </form>
 
         <a href="logout.php" class="btn-outline">
-            <i class="fa-solid fa-right-from-bracket"></i> Tancar sessió
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
         </a>
     </div>
 </main>

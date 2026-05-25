@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,44 +11,44 @@
 </head>
 <body>
 
-<a class="skip-link" href="#main">Saltar al contingut</a>
+<a class="skip-link" href="#main">Saltar al contenido</a>
 
 <header class="header">
     <div class="logo">
-        <a href="index.php" aria-label="KoffTea - Inici">
+        <a href="index.php" aria-label="KoffTea - Inicio">
             <img src="images/logo.png" alt="KoffTea">
         </a>
     </div>
 
-    <nav class="main-nav" id="main-nav" aria-label="Navegació principal">
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
         <ul>
-            <li><a href="index.php" class="active" aria-current="page">Inici</a></li>
-            <li><a href="productes.php">Productes</a></li>
-            <li><a href="formulario.php">Contacte</a></li>
+            <li><a href="index.php" class="active" aria-current="page">Inicio</a></li>
+            <li><a href="productes.php">Productos</a></li>
+            <li><a href="formulario.php">Contacto</a></li>
         </ul>
     </nav>
 
-    <div class="header-right">
-        <form class="search-bar" role="search" onsubmit="handleSearch(event)">
-            <label for="search-input" class="visually-hidden">Cerca productes</label>
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <input type="search" id="search-input" name="q" placeholder="Buscar cafés o tés...">
-        </form>
+    <form class="search-bar" role="search" onsubmit="handleSearch(event)">
+        <label for="search-input" class="visually-hidden">Buscar productos</label>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input type="search" id="search-input" name="q" placeholder="Buscar cafés o tés...">
+    </form>
 
-        <nav class="nav-icons" aria-label="Accions d'usuari">
+    <div class="header-right">
+        <nav class="nav-icons" aria-label="Acciones de usuario">
             <ul>
                 <li>
-                    <a href="auth/profile.php" aria-label="Perfil d'usuari">
+                    <a href="auth/profile.php" aria-label="Perfil de usuario">
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" aria-label="Llista de desitjos">
+                    <a href="#" aria-label="Lista de deseos">
                         <i class="fa-solid fa-heart" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li class="cart-wrapper">
-                    <button class="cart-btn" aria-label="Carret de compra" aria-expanded="false">
+                    <button class="cart-btn" aria-label="Carrito de compra" aria-expanded="false">
                         <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                         <span class="cart-badge" id="cart-badge" hidden>0</span>
                     </button>
@@ -56,89 +56,89 @@
             </ul>
         </nav>
 
-        <button class="hamburger" aria-label="Obrir menú" aria-expanded="false" aria-controls="main-nav">
+        <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
             <span></span><span></span><span></span>
         </button>
     </div>
 </header>
 
-<!-- Mini-cart -->
-<div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carret de compra" hidden>
-    <div class="mini-cart-header"><i class="fa-solid fa-cart-shopping"></i> El teu carret</div>
+<!-- Mini-carrito -->
+<div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carrito de compra" hidden>
+    <div class="mini-cart-header"><i class="fa-solid fa-cart-shopping"></i> Tu carrito</div>
     <div class="mini-cart-items" id="mini-cart-items"></div>
     <div class="mini-cart-footer">
         <span>Total: <strong id="mini-cart-total">0,00 €</strong></span>
-        <a href="productes.php" class="btn">Veure productes</a>
+        <a href="productes.php" class="btn">Ver productos</a>
     </div>
 </div>
 
 <main id="main">
     <section class="hero">
         <div class="hero-text">
-            <h1>L'art de gaudir el cafè i el té amb calma</h1>
+            <h1>El arte de disfrutar el café y el té con calma</h1>
             <p class="quote">
-                "Entre glops i pàgines, el món s'atura per un instant."
+                "Entre sorbos y páginas, el mundo se detiene por un instante."
             </p>
-            <a href="productes.php" class="hero-btn">Veure productes</a>
+            <a href="productes.php" class="hero-btn">Ver productos</a>
         </div>
         <div class="hero-img">
-            <img src="./images/products/arab_coffee.png" alt="Paquet de cafè arabiga">
+            <img src="./images/products/arab_coffee.png" alt="Paquete de café arábica">
         </div>
     </section>
 
     <section class="features">
-        <h2>Seccions destacades</h2>
+        <h2>Secciones destacadas</h2>
         <div class="feature-items">
             <article>
                 <a href="productes.php?cat=Cápsula">
-                    <img src="./images/category/capsula.jpg" alt="Càpsules de cafè">
-                    <h3>Càpsules</h3>
-                    <p>Comoditat moderna per als amants del espresso perfecte.</p>
+                    <img src="./images/category/capsula.jpg" alt="Cápsulas de café">
+                    <h3>Cápsulas</h3>
+                    <p>Comodidad moderna para los amantes del espresso perfecto.</p>
                 </a>
             </article>
             <article>
                 <a href="productes.php?cat=Grano">
-                    <img src="./images/category/grano.jpg" alt="Grans de cafè">
-                    <h3>Gra</h3>
-                    <p>L'aroma i la frescor en la seua forma més pura.</p>
+                    <img src="./images/category/grano.jpg" alt="Granos de café">
+                    <h3>Grano</h3>
+                    <p>El aroma y la frescura en su forma más pura.</p>
                 </a>
             </article>
             <article>
                 <a href="productes.php?cat=Molido">
-                    <img src="./images/category/molido.jpg" alt="Cafè mòlt">
-                    <h3>Mòlt</h3>
-                    <p>La senzillesa d'un cafè ràpid sense perdre el plaer.</p>
+                    <img src="./images/category/molido.jpg" alt="Café molido">
+                    <h3>Molido</h3>
+                    <p>La sencillez de un café rápido sin perder el placer.</p>
                 </a>
             </article>
             <article>
                 <a href="productes.php?cat=Té">
                     <img src="./images/category/te.jpg" alt="Té">
                     <h3>Té</h3>
-                    <p>Varietats que inviten a la calma i la reflexió.</p>
+                    <p>Variedades que invitan a la calma y la reflexión.</p>
                 </a>
             </article>
         </div>
     </section>
 
     <section class="video-section">
-        <h2>Vídeo del Dia: La Tassa Perfecta</h2>
+        <h2>Vídeo del Día: La Taza Perfecta</h2>
         <div class="video-container">
-            <video controls autoplay muted loop aria-label="Vídeo: com preparar la tassa perfecta">
+            <video controls autoplay muted loop aria-label="Vídeo: cómo preparar la taza perfecta">
                 <source src="./images/videoDia.mp4" type="video/mp4">
             </video>
         </div>
         <p class="video-caption" id="footer-video">
-            Aprèn la tècnica definitiva per preparar la teua beguda matutina, ja siga cafè de premsa francesa o una infusió de té verd.
+            Aprende la técnica definitiva para preparar tu bebida matutina, ya sea café de prensa francesa o una infusión de té verde.
         </p>
     </section>
 </main>
 
 <footer>
-    <p>&copy; 2025 KoffTea Times · Inspirant moments de lectura i aroma.</p>
+    <p>&copy; 2025 KoffTea Times · Inspirando momentos de lectura y aroma.</p>
     <p>
-        <a href="formulario.php">Contacte</a> ·
-        <a href="productes.php">Productes</a> ·
-        <a href="cataleg_processor.php">Importar catàleg</a>
+        <a href="formulario.php">Contacto</a> ·
+        <a href="productes.php">Productos</a> ·
+        <a href="cataleg_processor.php">Importar catálogo</a>
     </p>
 </footer>
 

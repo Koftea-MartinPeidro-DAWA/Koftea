@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasenya = $_POST['contrasenya'];
 
     if (empty($nom_usuari) || empty($contrasenya)) {
-        $missatge = "Omple tots els camps.";
+        $missatge = "Rellena todos los campos.";
         $tipus    = "error";
     } else {
         $data    = json_read('../data/users.json');
@@ -31,31 +31,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: profile.php");
             exit();
         } else {
-            $missatge = "Nom d'usuari o contrasenya incorrectes.";
+            $missatge = "Nombre de usuario o contraseña incorrectos.";
             $tipus    = "error";
         }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/auth.css">
-    <title>Inici de sessió · KoffTea</title>
+    <title>Inicio de sesión · KoffTea</title>
 </head>
 <body>
 
 <header class="header">
     <h1><i class="fa-solid fa-mug-hot"></i> KoffTea</h1>
-    <a href="../index.php"><i class="fa-solid fa-house"></i> Tornar a l'inici</a>
+    <a href="../index.php"><i class="fa-solid fa-house"></i> Volver al inicio</a>
 </header>
 
 <main>
     <div class="auth-card">
-        <h2><i class="fa-solid fa-right-to-bracket"></i> Inicia sessió</h2>
+        <h2><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</h2>
 
         <?php if ($missatge): ?>
             <div class="msg <?= $tipus ?>">
@@ -66,15 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post">
             <div class="field">
-                <label for="nom_usuari"><i class="fa-solid fa-user"></i> Nom d'usuari</label>
+                <label for="nom_usuari"><i class="fa-solid fa-user"></i> Nombre de usuario</label>
                 <input type="text" id="nom_usuari" name="nom_usuari"
                        value="<?= htmlspecialchars($_POST['nom_usuari'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                       placeholder="El teu nom d'usuari" required autofocus>
+                       placeholder="Tu nombre de usuario" required autofocus>
             </div>
             <div class="field">
-                <label for="contrasenya"><i class="fa-solid fa-lock"></i> Contrasenya</label>
+                <label for="contrasenya"><i class="fa-solid fa-lock"></i> Contraseña</label>
                 <input type="password" id="contrasenya" name="contrasenya"
-                       placeholder="La teua contrasenya" required>
+                       placeholder="Tu contraseña" required>
             </div>
             <button type="submit" class="btn">
                 <i class="fa-solid fa-right-to-bracket"></i> Entrar
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <div class="auth-footer">
-            No tens compte? <a href="register.php">Registra't</a>
+            ¿No tienes cuenta? <a href="register.php">Regístrate</a>
         </div>
     </div>
 </main>
