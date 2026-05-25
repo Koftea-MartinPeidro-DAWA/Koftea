@@ -85,13 +85,15 @@ body {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    justify-content: center;
     background: #fffaf3;
     border: 1px solid #d4c6a8;
     border-radius: 4px;
     padding: 0.4rem 0.8rem;
-    flex: 1;
-    max-width: 500px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    max-width: 38%;
     box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
 }
 
@@ -136,6 +138,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-left: auto;
 }
 
 /* NAV ICONS */
@@ -242,7 +245,13 @@ body {
 
     .hamburger { display: flex; }
 
-    .search-bar { max-width: 180px; }
+    .search-bar {
+        position: static;
+        transform: none;
+        width: auto;
+        max-width: 160px;
+        flex: 1;
+    }
 
     .hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
     .hero-img { display: none; }
