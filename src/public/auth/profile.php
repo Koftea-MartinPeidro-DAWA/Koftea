@@ -2,7 +2,6 @@
 session_start();
 include '../includes/json_connect.php';
 
-// 🔎 Identificar usuari: sessió o cookie
 if (isset($_SESSION['usuari'])) {
     $nom_usuari = $_SESSION['usuari'];
 } elseif (isset($_COOKIE['user_id'])) {
@@ -12,64 +11,115 @@ if (isset($_SESSION['usuari'])) {
     exit();
 }
 
-// Llegeix JSON
-$data = json_read('../data/users.json');
+$data    = json_read('../data/users.json');
 $usuaris = $data['usuaris'] ?? [];
 
 $usuariActual = null;
-
-// GET /usuaris/{id} simulada
 foreach ($usuaris as &$usuari) {
     if ((isset($nom_usuari) && $usuari['nom_usuari'] === $nom_usuari) ||
-        (isset($user_id) && $usuari['id'] === $user_id)) {
+        (isset($user_id)   && $usuari['id']          === $user_id)) {
         $usuariActual = &$usuari;
         break;
     }
 }
 
 if (!$usuariActual) {
-    die("Usuari no trobat.");
+    header("Location: login.php");
+    exit();
 }
 
 $missatge = "";
+$tipus    = "";
 
-// PATCH /usuaris/{id} simulada
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuariActual['email'] = $_POST['email'] ?? $usuariActual['email'];
-    $usuariActual['nom'] = $_POST['nom'] ?? $usuariActual['nom'];
-    $usuariActual['cognoms'] = $_POST['cognoms'] ?? $usuariActual['cognoms'];
+    $nou_email   = trim($_POST['email']   ?? '');
+    $nou_nom     = trim($_POST['nom']     ?? '');
+    $nou_cognoms = trim($_POST['cognoms'] ?? '');
+    $nova_pass   = $_POST['nova_contrasenya'] ?? '';
 
-    if (!empty($_POST['nova_contrasenya'])) {
-        $usuariActual['contrasenya'] = password_hash($_POST['nova_contrasenya'], PASSWORD_DEFAULT);
+    if (!empty($nou_email) && !filter_var($nou_email, FILTER_VALIDATE_EMAIL)) {
+        $missatge = "El format de l'email no és vàlid.";
+        $tipus    = "error";
+    } else {
+        $usuariActual['email']   = $nou_email   ?: $usuariActual['email'];
+        $usuariActual['nom']     = $nou_nom     ?: $usuariActual['nom'];
+        $usuariActual['cognoms'] = $nou_cognoms ?: $usuariActual['cognoms'];
+
+        if (!empty($nova_pass)) {
+            $usuariActual['contrasenya'] = password_hash($nova_pass, PASSWORD_DEFAULT);
+        }
+
+        json_write('../data/users.json', $data);
+        $missatge = "Perfil actualitzat correctament!";
+        $tipus    = "success";
     }
-
-    // Guarda al JSON
-    json_write('../data/users.json', $data);
-    $missatge = "Perfil actualitzat correctament!";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/profile.css">
-    <title>Perfil d'usuari</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/auth.css">
+    <title>Perfil · KoffTea</title>
 </head>
 <body>
 
-    <h2>Perfil de l'usuari: <?= htmlspecialchars($usuariActual['nom_usuari']) ?></h2>
+<header class="header">
+    <h1><i class="fa-solid fa-mug-hot"></i> KoffTea</h1>
+    <a href="../index.php"><i class="fa-solid fa-house"></i> Tornar a l'inici</a>
+</header>
 
-    <?php if($missatge) echo "<p>$missatge</p>"; ?>
+<main>
+    <div class="auth-card">
+        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+        <h2><?= htmlspecialchars($usuariActual['nom_usuari'], ENT_QUOTES, 'UTF-8') ?></h2>
 
-    <form method="post">
-        Email: <input type="email" name="email" value="<?= htmlspecialchars($usuariActual['email']) ?>"><br>
-        Nom: <input type="text" name="nom" value="<?= htmlspecialchars($usuariActual['nom']) ?>"><br>
-        Cognoms: <input type="text" name="cognoms" value="<?= htmlspecialchars($usuariActual['cognoms']) ?>"><br>
-        Nova contrasenya: <input type="password" name="nova_contrasenya"><br>
-        <button type="submit">Actualitzar perfil</button>
-    </form>
+        <?php if ($missatge): ?>
+            <div class="msg <?= $tipus ?>">
+                <i class="fa-solid <?= $tipus === 'error' ? 'fa-circle-xmark' : 'fa-circle-check' ?>"></i>
+                <?= htmlspecialchars($missatge, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+        <?php endif; ?>
 
-    <p><a href="logout.php">Tancar sessió</a></p>
+        <form method="post">
+            <div class="field">
+                <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email"
+                       value="<?= htmlspecialchars($usuariActual['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+            <div class="field">
+                <label for="nom"><i class="fa-solid fa-id-card"></i> Nom</label>
+                <input type="text" id="nom" name="nom"
+                       value="<?= htmlspecialchars($usuariActual['nom'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+            <div class="field">
+                <label for="cognoms"><i class="fa-solid fa-id-card"></i> Cognoms</label>
+                <input type="text" id="cognoms" name="cognoms"
+                       value="<?= htmlspecialchars($usuariActual['cognoms'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+
+            <hr class="divider">
+
+            <div class="field">
+                <label for="nova_contrasenya"><i class="fa-solid fa-key"></i> Nova contrasenya</label>
+                <input type="password" id="nova_contrasenya" name="nova_contrasenya"
+                       placeholder="Deixa en blanc per no canviar-la">
+            </div>
+
+            <button type="submit" class="btn">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar canvis
+            </button>
+        </form>
+
+        <a href="logout.php" class="btn-outline">
+            <i class="fa-solid fa-right-from-bracket"></i> Tancar sessió
+        </a>
+    </div>
+</main>
+
+<footer>&copy; 2025 KoffTea Times</footer>
+
 </body>
 </html>

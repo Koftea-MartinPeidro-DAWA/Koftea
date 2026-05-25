@@ -1,81 +1,135 @@
 <?php
 session_start();
-include '../includes/json_connect.php'; // Funcions per llegir/escriure JSON
+include '../includes/json_connect.php';
 
 $missatge = "";
+$tipus    = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom_usuari = trim($_POST['nom_usuari']);
     $contrasenya = $_POST['contrasenya'];
-    $email = trim($_POST['email']);
-    $nom = trim($_POST['nom']);
-    $cognoms = trim($_POST['cognoms']);
+    $email      = trim($_POST['email']);
+    $nom        = trim($_POST['nom']);
+    $cognoms    = trim($_POST['cognoms']);
 
-    // Comprova que no hi hagi camps buits
     if (empty($nom_usuari) || empty($contrasenya) || empty($email)) {
         $missatge = "Els camps nom d'usuari, contrasenya i email són obligatoris.";
+        $tipus    = "error";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $missatge = "El format de l'email no és vàlid.";
+        $tipus    = "error";
     } else {
-        // Hasheja la contrasenya
-        $hash = password_hash($contrasenya, PASSWORD_DEFAULT);
-
-        // Llegeix l’array existent d’usuaris
-        $data = json_read('../data/users.json');
+        $data    = json_read('../data/users.json');
         $usuaris = $data['usuaris'] ?? [];
 
-        // Comprova si el nom d’usuari ja existeix
-        $existeix = false;
+        $usuari_existeix = false;
+        $email_existeix  = false;
         foreach ($usuaris as $usuari) {
-            if ($usuari['nom_usuari'] === $nom_usuari) {
-                $existeix = true;
-                break;
-            }
+            if ($usuari['nom_usuari'] === $nom_usuari) $usuari_existeix = true;
+            if ($usuari['email']      === $email)      $email_existeix  = true;
         }
 
-        if ($existeix) {
+        if ($usuari_existeix) {
             $missatge = "Aquest nom d'usuari ja existeix.";
+            $tipus    = "error";
+        } elseif ($email_existeix) {
+            $missatge = "Aquest email ja està registrat.";
+            $tipus    = "error";
         } else {
-            // Assigna un ID automàtic
-            $id = $usuaris ? end($usuaris)['id'] + 1 : 1;
+            $id = $usuaris ? (end($usuaris)['id'] + 1) : 1;
 
-            // Crea el nou usuari
             $nou_usuari = [
-                "id" => $id,
-                "nom_usuari" => $nom_usuari,
-                "contrasenya" => $hash,
-                "email" => $email,
-                "nom" => $nom,
-                "cognoms" => $cognoms,
+                "id"            => $id,
+                "nom_usuari"    => $nom_usuari,
+                "contrasenya"   => password_hash($contrasenya, PASSWORD_DEFAULT),
+                "email"         => $email,
+                "nom"           => $nom,
+                "cognoms"       => $cognoms,
                 "data_registre" => gmdate("Y-m-d\TH:i:s\Z")
             ];
 
-            // Afegim l’usuari i guardem
             $data['usuaris'][] = $nou_usuari;
             json_write('../data/users.json', $data);
 
-            $missatge = "Usuari registrat correctament!";
+            $missatge = "Compte creat correctament! Ara pots iniciar sessió.";
+            $tipus    = "success";
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/register.css">
-    <title>Registre d'usuari</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/auth.css">
+    <title>Registre · KoffTea</title>
 </head>
 <body>
-    <h2>Registre</h2>
-    <?php if($missatge) echo "<p>$missatge</p>"; ?>
-    <form method="post">
-        Nom d'usuari: <input type="text" name="nom_usuari" required><br>
-        Contrasenya: <input type="password" name="contrasenya" required><br>
-        Email: <input type="email" name="email" required><br>
-        Nom: <input type="text" name="nom"><br>
-        Cognoms: <input type="text" name="cognoms"><br>
-        <button type="submit">Registrar-se</button>
-    </form>
-    <p>Ja tens compte? <a href="login.php">Inicia sessió</a></p>
+
+<header class="header">
+    <h1><i class="fa-solid fa-mug-hot"></i> KoffTea</h1>
+    <a href="../index.php"><i class="fa-solid fa-house"></i> Tornar a l'inici</a>
+</header>
+
+<main>
+    <div class="auth-card">
+        <h2><i class="fa-solid fa-user-plus"></i> Crea un compte</h2>
+
+        <?php if ($missatge): ?>
+            <div class="msg <?= $tipus ?>">
+                <i class="fa-solid <?= $tipus === 'error' ? 'fa-circle-xmark' : 'fa-circle-check' ?>"></i>
+                <?= htmlspecialchars($missatge, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="post">
+            <div class="field">
+                <label for="nom_usuari"><i class="fa-solid fa-user"></i> Nom d'usuari <span style="color:#c62828">*</span></label>
+                <input type="text" id="nom_usuari" name="nom_usuari"
+                       value="<?= htmlspecialchars($_POST['nom_usuari'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                       placeholder="Tria un nom d'usuari" required autofocus>
+            </div>
+            <div class="field">
+                <label for="email"><i class="fa-solid fa-envelope"></i> Email <span style="color:#c62828">*</span></label>
+                <input type="email" id="email" name="email"
+                       value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                       placeholder="correu@exemple.com" required>
+            </div>
+            <div class="field">
+                <label for="contrasenya"><i class="fa-solid fa-lock"></i> Contrasenya <span style="color:#c62828">*</span></label>
+                <input type="password" id="contrasenya" name="contrasenya"
+                       placeholder="Mínim 6 caràcters" required>
+            </div>
+
+            <hr class="divider">
+
+            <div class="field">
+                <label for="nom"><i class="fa-solid fa-id-card"></i> Nom</label>
+                <input type="text" id="nom" name="nom"
+                       value="<?= htmlspecialchars($_POST['nom'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                       placeholder="El teu nom">
+            </div>
+            <div class="field">
+                <label for="cognoms"><i class="fa-solid fa-id-card"></i> Cognoms</label>
+                <input type="text" id="cognoms" name="cognoms"
+                       value="<?= htmlspecialchars($_POST['cognoms'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                       placeholder="Els teus cognoms">
+            </div>
+
+            <button type="submit" class="btn">
+                <i class="fa-solid fa-user-plus"></i> Registrar-se
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Ja tens compte? <a href="login.php">Inicia sessió</a>
+        </div>
+    </div>
+</main>
+
+<footer>&copy; 2025 KoffTea Times</footer>
+
 </body>
 </html>

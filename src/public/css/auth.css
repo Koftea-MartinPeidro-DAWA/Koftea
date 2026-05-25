@@ -1,0 +1,188 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f0eb;
+    color: #2c1a0e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.header {
+    background: #2c1a0e;
+    color: #f5f0eb;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.header a { color: #d4a96a; text-decoration: none; font-size: .9rem; }
+.header h1 { font-size: 1.25rem; flex: 1; }
+
+/* ── Layout ── */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 2px 16px rgba(44,26,14,.12);
+    width: 100%;
+    max-width: 420px;
+}
+
+.auth-card h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #2c1a0e;
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+.auth-card h2 i { color: #8b5e3c; }
+
+/* ── Form ── */
+.field {
+    margin-bottom: 1.1rem;
+}
+
+.field label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #5a3e2b;
+    margin-bottom: .35rem;
+}
+
+.field label i {
+    margin-right: .3rem;
+    color: #8b5e3c;
+    width: 14px;
+}
+
+.field input {
+    width: 100%;
+    padding: .7rem .9rem;
+    border: 1px solid #d4c6a8;
+    border-radius: 8px;
+    font-size: .95rem;
+    font-family: inherit;
+    color: #2c1a0e;
+    background: #fdfaf5;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 3px rgba(139,94,60,.15);
+}
+
+/* ── Button ── */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    padding: .8rem;
+    background: #8b5e3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+    margin-top: .5rem;
+}
+.btn:hover { background: #6e4a2f; }
+
+/* ── Messages ── */
+.msg {
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    font-size: .9rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.msg.error   { background: #fff4f4; border: 1px solid #e57373; color: #c62828; }
+.msg.success { background: #f0faf0; border: 1px solid #6abf6a; color: #2e7d32; }
+
+/* ── Footer link ── */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: .875rem;
+    color: #7a6555;
+}
+.auth-footer a {
+    color: #8b5e3c;
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-footer a:hover { text-decoration: underline; }
+
+/* ── Divider ── */
+.divider {
+    border: none;
+    border-top: 1px solid #ede3d3;
+    margin: 1.5rem 0;
+}
+
+/* ── Profile avatar ── */
+.avatar {
+    width: 72px;
+    height: 72px;
+    background: #8b5e3c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+}
+.avatar i { font-size: 2rem; color: #fff; }
+
+/* ── Logout button ── */
+.btn-outline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    padding: .7rem;
+    background: transparent;
+    color: #8b5e3c;
+    border: 1.5px solid #8b5e3c;
+    border-radius: 8px;
+    font-size: .95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+    margin-top: .75rem;
+}
+.btn-outline:hover { background: #8b5e3c; color: #fff; }
+
+/* ── Footer ── */
+footer {
+    background: #2c1a0e;
+    color: #a08060;
+    text-align: center;
+    padding: 1rem;
+    font-size: .85rem;
+}
