@@ -30,7 +30,7 @@ $origen   = htmlspecialchars($producto['ProcedenciaOrigen'], ENT_QUOTES, 'UTF-8'
 $formato  = htmlspecialchars($producto['Formato'],           ENT_QUOTES, 'UTF-8');
 $desc     = htmlspecialchars($producto['Descripcion'] ?? '', ENT_QUOTES, 'UTF-8');
 $precio   = number_format((float)$producto['Precio'], 2, ',', '.');
-$intens   = (int)$producto['Intensidad'];
+$intens   = max(0, min(5, (int)$producto['Intensidad']));
 $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
 ?>
 <!DOCTYPE html>

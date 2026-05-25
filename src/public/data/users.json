@@ -17,6 +17,15 @@
             "nom": "Mart\u00edn",
             "cognoms": "Peidro",
             "data_registre": "2025-11-27T14:26:44Z"
+        },
+        {
+            "id": 3,
+            "nom_usuari": "Proba2",
+            "contrasenya": "$2y$10$ScZqeMcnon95994KE7ABXOswJOvTuei03xHetZP4rJS0YK4VK1X02",
+            "email": "proba2@gmail.es",
+            "nom": "Mart\u00edn",
+            "cognoms": "Peidro",
+            "data_registre": "2026-05-25T14:10:02Z"
         }
     ]
 }
