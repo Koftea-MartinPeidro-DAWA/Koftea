@@ -176,7 +176,9 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
                     <?php endif; ?>
                 </div>
                 <div class="card-body">
-                    <p class="card-nombre"><?= $nombre ?></p>
+                    <p class="card-nombre">
+                        <a class="card-link" href="producto.php?id=<?= $id ?>"><?= $nombre ?></a>
+                    </p>
                     <p class="card-origen"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <?= $origen ?></p>
                     <p class="card-stars" aria-label="Valoración: 4 de 5 estrellas"><?= stars(4) ?></p>
                     <p class="card-precio"><?= $precio ?> €</p>
