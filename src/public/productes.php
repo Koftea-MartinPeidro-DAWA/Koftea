@@ -99,6 +99,7 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
     </div>
 </div>
 
+<main>
 <!-- Breadcrumb -->
 <nav class="breadcrumb" aria-label="Ruta de navegación">
     <a href="index.php">Inicio</a>
@@ -205,6 +206,7 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
         </div>
     </section>
 </div>
+</main>
 
 <footer>
     <p>&copy; 2025 KoffTea Times · Inspirando momentos de lectura y aroma.</p>

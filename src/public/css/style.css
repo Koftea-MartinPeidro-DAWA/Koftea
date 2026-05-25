@@ -279,6 +279,10 @@ body {
 /* MAIN */
 main {
     grid-area: main;
+}
+
+/* Solo index.php */
+main.home-main {
     display: grid;
     grid-template-rows: auto auto;
     grid-template-areas:

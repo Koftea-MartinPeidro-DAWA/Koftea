@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<main id="main">
+<main id="main" class="home-main">
     <section class="hero">
         <div class="hero-text">
             <h1>El arte de disfrutar el café y el té con calma</h1>
