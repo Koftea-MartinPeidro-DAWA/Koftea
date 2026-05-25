@@ -456,7 +456,15 @@ footer {
 }
 
 /* ===== Formulario de contacto (solo .form-page) ===== */
-.form-page form label {
+.container {
+    grid-column: 1 / -1;
+    max-width: 580px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+.form-page form > label {
     display: block;
     margin: 0.5rem 0 0.3rem;
     text-align: left;
