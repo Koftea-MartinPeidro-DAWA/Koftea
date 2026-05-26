@@ -6,6 +6,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+[hidden] { display: none !important; }
 
 body {
     background-color: #f4ecd8; /* papel reciclado */
@@ -148,7 +149,8 @@ body {
     list-style: none;
 }
 .nav-icons a,
-.cart-btn {
+.cart-btn,
+.wishlist-btn {
     color: #f4ecd8;
     font-size: 1.15rem;
     background: none;
@@ -159,10 +161,30 @@ body {
     padding: .2rem;
 }
 .nav-icons a:hover,
-.cart-btn:hover { color: #b9a177; }
+.cart-btn:hover,
+.wishlist-btn:hover { color: #b9a177; }
 
 /* ── Cart wrapper ── */
 .cart-wrapper { position: relative; }
+
+/* ── Wishlist wrapper ── */
+.wishlist-wrapper { position: relative; }
+.wishlist-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #e57373;
+    color: #fff;
+    font-size: .65rem;
+    font-weight: 700;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
 
 /* ── Cart badge ── */
 .cart-badge {

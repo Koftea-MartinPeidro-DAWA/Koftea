@@ -42,10 +42,11 @@
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li>
-                    <a href="#" aria-label="Lista de deseos">
-                        <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                    </a>
+                <li class="wishlist-wrapper">
+                    <button class="wishlist-btn" aria-label="Lista de deseos" aria-expanded="false">
+                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                        <span class="wishlist-badge" id="wishlist-badge" hidden>0</span>
+                    </button>
                 </li>
                 <li class="cart-wrapper">
                     <button class="cart-btn" aria-label="Carrito de compra" aria-expanded="false">
@@ -61,6 +62,15 @@
         </button>
     </div>
 </header>
+
+<!-- Mini-lista de deseos -->
+<div class="mini-cart" id="mini-wishlist" role="dialog" aria-label="Lista de deseos" hidden>
+    <div class="mini-cart-header"><i class="fa-solid fa-heart"></i> Lista de deseos</div>
+    <div class="mini-cart-items" id="mini-wishlist-items"></div>
+    <div class="mini-cart-footer">
+        <span><strong id="mini-wishlist-count">0 productos</strong></span>
+    </div>
+</div>
 
 <!-- Mini-carrito -->
 <div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carrito de compra" hidden>
@@ -90,7 +100,7 @@
         <h2>Secciones destacadas</h2>
         <div class="feature-items">
             <article>
-                <a href="productes.php?cat=Cápsula">
+                <a href="productes.php?cat=Cápsulas">
                     <img src="./images/category/capsula.jpg" alt="Cápsulas de café">
                     <h3>Cápsulas</h3>
                     <p>Comodidad moderna para los amantes del espresso perfecto.</p>
@@ -143,6 +153,7 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script>
 function handleSearch(e) {
     e.preventDefault();

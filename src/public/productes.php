@@ -69,10 +69,11 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li>
-                    <a href="#" aria-label="Lista de deseos">
-                        <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                    </a>
+                <li class="wishlist-wrapper">
+                    <button class="wishlist-btn" aria-label="Lista de deseos" aria-expanded="false">
+                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                        <span class="wishlist-badge" id="wishlist-badge" hidden>0</span>
+                    </button>
                 </li>
                 <li class="cart-wrapper">
                     <button class="cart-btn" aria-label="Carrito de compra" aria-expanded="false">
@@ -88,6 +89,15 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
         </button>
     </div>
 </header>
+
+<!-- Mini-lista de deseos -->
+<div class="mini-cart" id="mini-wishlist" role="dialog" aria-label="Lista de deseos" hidden>
+    <div class="mini-cart-header"><i class="fa-solid fa-heart"></i> Lista de deseos</div>
+    <div class="mini-cart-items" id="mini-wishlist-items"></div>
+    <div class="mini-cart-footer">
+        <span><strong id="mini-wishlist-count">0 productos</strong></span>
+    </div>
+</div>
 
 <!-- Mini-carrito -->
 <div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carrito de compra" hidden>
@@ -184,20 +194,28 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
                     <p class="card-precio"><?= $precio ?> €</p>
                     <p class="card-formato"><?= $formato ?></p>
                 </div>
-                <button class="btn-cart"
-                        data-id="<?= $id ?>"
-                        data-nombre="<?= $nombre ?>"
-                        data-precio="<?= (float)$p['Precio'] ?>"
-                        data-categoria="<?= $cat ?>"
-                        <?= $inStock ? '' : 'disabled' ?>
-                        onclick="addToCart({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
-                        aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "$nombre sin stock" ?>">
-                    <?php if ($inStock): ?>
-                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Añadir al carrito
-                    <?php else: ?>
-                        <i class="fa-solid fa-ban" aria-hidden="true"></i> Sin stock
-                    <?php endif; ?>
-                </button>
+                <div class="card-actions">
+                    <button class="btn-cart"
+                            data-id="<?= $id ?>"
+                            data-nombre="<?= $nombre ?>"
+                            data-precio="<?= (float)$p['Precio'] ?>"
+                            data-categoria="<?= $cat ?>"
+                            <?= $inStock ? '' : 'disabled' ?>
+                            onclick="addToCart({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
+                            aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "$nombre sin stock" ?>">
+                        <?php if ($inStock): ?>
+                            <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Añadir al carrito
+                        <?php else: ?>
+                            <i class="fa-solid fa-ban" aria-hidden="true"></i> Sin stock
+                        <?php endif; ?>
+                    </button>
+                    <button class="btn-wishlist"
+                            data-id="<?= $id ?>"
+                            onclick="toggleWishlist({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
+                            aria-label="Añadir <?= $nombre ?> a lista de deseos">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
             </article>
             <?php endforeach; ?>
 
@@ -219,6 +237,7 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script>
 // ── Filtrado ──
 const cards      = Array.from(document.querySelectorAll('.product-card'));
@@ -245,11 +264,11 @@ function applyFilters() {
         const okQuery = !query || nombre.includes(query);
 
         const show = okCat && okPrice && okStock && okQuery;
-        card.hidden = !show;
+        card.style.display = show ? '' : 'none';
         if (show) visible++;
     });
 
-    emptyState.hidden = visible > 0;
+    emptyState.style.display = visible > 0 ? 'none' : '';
     countEl.textContent = `${visible} productos`;
 }
 

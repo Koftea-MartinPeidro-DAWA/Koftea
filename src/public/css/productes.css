@@ -180,7 +180,6 @@
     inset: 0;
     z-index: 1;
 }
-.btn-cart { position: relative; z-index: 2; }
 
 /* ── Product card ── */
 .product-card {
@@ -278,8 +277,15 @@
     color: #a08060;
 }
 
-.btn-cart {
+/* ── Card actions (carrito + wishlist) ── */
+.card-actions {
+    display: flex;
+    gap: .5rem;
     margin: 0 1rem 1rem;
+}
+
+.btn-cart {
+    flex: 1;
     padding: .6rem;
     background: #8b5e3c;
     color: #fff;
@@ -294,6 +300,8 @@
     justify-content: center;
     gap: .4rem;
     transition: background .2s;
+    position: relative;
+    z-index: 2;
 }
 .btn-cart:hover:not(:disabled) { background: #6e4a2f; }
 .btn-cart:disabled {
@@ -304,6 +312,38 @@
 .btn-cart.added { background: #4a7c4a; }
 .btn-cart:focus-visible {
     outline: 3px solid #8b5e3c;
+    outline-offset: 2px;
+}
+
+/* ── Wishlist button on card ── */
+.btn-wishlist {
+    flex-shrink: 0;
+    width: 36px;
+    background: transparent;
+    border: 1.5px solid #e2d8cc;
+    border-radius: 8px;
+    color: #b9a990;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .2s, border-color .2s, background .2s;
+    position: relative;
+    z-index: 2;
+}
+.btn-wishlist:hover {
+    border-color: #e57373;
+    color: #e57373;
+    background: #fff5f5;
+}
+.btn-wishlist.in-wishlist {
+    border-color: #e57373;
+    color: #e57373;
+    background: #fff5f5;
+}
+.btn-wishlist:focus-visible {
+    outline: 3px solid #e57373;
     outline-offset: 2px;
 }
 
@@ -351,6 +391,7 @@
 .mci-name { flex: 1; color: #2c1a0e; font-weight: 600; }
 .mci-qty  { color: #7a6555; }
 .mci-price { color: #8b5e3c; font-weight: 700; min-width: 55px; text-align: right; }
+.mci-add-cart,
 .mci-remove {
     background: none;
     border: none;
@@ -359,6 +400,7 @@
     padding: .2rem;
     transition: color .2s;
 }
+.mci-add-cart:hover { color: #8b5e3c; }
 .mci-remove:hover { color: #e57373; }
 .mini-cart-empty { color: #a08060; font-size: .9rem; text-align: center; padding: 1rem 0; }
 .mini-cart-footer {

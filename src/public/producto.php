@@ -78,10 +78,11 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li>
-                    <a href="#" aria-label="Lista de deseos">
-                        <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                    </a>
+                <li class="wishlist-wrapper">
+                    <button class="wishlist-btn" aria-label="Lista de deseos" aria-expanded="false">
+                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                        <span class="wishlist-badge" id="wishlist-badge" hidden>0</span>
+                    </button>
                 </li>
                 <li class="cart-wrapper">
                     <button class="cart-btn" aria-label="Carrito de compra" aria-expanded="false">
@@ -96,6 +97,15 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
         </button>
     </div>
 </header>
+
+<!-- Mini-lista de deseos -->
+<div class="mini-cart" id="mini-wishlist" role="dialog" aria-label="Lista de deseos" hidden>
+    <div class="mini-cart-header"><i class="fa-solid fa-heart"></i> Lista de deseos</div>
+    <div class="mini-cart-items" id="mini-wishlist-items"></div>
+    <div class="mini-cart-footer">
+        <span><strong id="mini-wishlist-count">0 productos</strong></span>
+    </div>
+</div>
 
 <!-- Mini-carrito -->
 <div class="mini-cart" id="mini-cart" role="dialog" aria-label="Carrito de compra" hidden>
@@ -156,16 +166,24 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
                 <p class="producto-desc"><?= $desc ?></p>
             <?php endif; ?>
 
-            <button class="btn-cart-detalle"
-                    <?= $inStock ? '' : 'disabled' ?>
-                    onclick="addToCart({id:'<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>',nombre:'<?= addslashes($producto['Nombre']) ?>',precio:<?= (float)$producto['Precio'] ?>,categoria:'<?= addslashes($producto['Categoria']) ?>'})"
-                    aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "Sin stock" ?>">
-                <?php if ($inStock): ?>
-                    <i class="fa-solid fa-cart-plus"></i> Añadir al carrito
-                <?php else: ?>
-                    <i class="fa-solid fa-ban"></i> Sin stock
-                <?php endif; ?>
-            </button>
+            <div class="detalle-actions">
+                <button class="btn-cart-detalle"
+                        <?= $inStock ? '' : 'disabled' ?>
+                        onclick="addToCart({id:'<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>',nombre:'<?= addslashes($producto['Nombre']) ?>',precio:<?= (float)$producto['Precio'] ?>,categoria:'<?= addslashes($producto['Categoria']) ?>'})"
+                        aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "Sin stock" ?>">
+                    <?php if ($inStock): ?>
+                        <i class="fa-solid fa-cart-plus"></i> Añadir al carrito
+                    <?php else: ?>
+                        <i class="fa-solid fa-ban"></i> Sin stock
+                    <?php endif; ?>
+                </button>
+                <button class="btn-wishlist-detalle"
+                        data-id="<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>"
+                        onclick="toggleWishlist({id:'<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>',nombre:'<?= addslashes($producto['Nombre']) ?>',precio:<?= (float)$producto['Precio'] ?>,categoria:'<?= addslashes($producto['Categoria']) ?>'})"
+                        aria-label="Añadir <?= $nombre ?> a lista de deseos">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -217,6 +235,7 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
 <input type="hidden" id="producto-id" value="<?= htmlspecialchars($id, ENT_QUOTES) ?>">
 
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script src="js/comments.js"></script>
 <script>
 function handleSearch(e) {
