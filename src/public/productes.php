@@ -1,30 +1,3 @@
-<?php
-session_start();
-
-$dataFile = __DIR__ . "/data/productos.json";
-$data     = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
-$productes = $data['productes'] ?? [];
-
-// Mapa de categoria → imagen
-$catImg = [
-    'Grano'    => 'images/category/grano.jpg',
-    'Molido'   => 'images/category/molido.jpg',
-    'Cápsula'  => 'images/category/capsula.jpg',
-    'Cápsulas' => 'images/category/capsula.jpg',
-    'Té'       => 'images/category/te.jpg',
-    'Te'       => 'images/category/te.jpg',
-];
-
-function getImg(array $catMap, string $cat): string {
-    return $catMap[$cat] ?? 'images/category/grano.jpg';
-}
-
-function stars(int $n = 4): string {
-    return str_repeat('★', $n) . str_repeat('☆', 5 - $n);
-}
-
-$categories = array_values(array_unique(array_column($productes, 'Categoria')));
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -34,7 +7,15 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/productes.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "axios": "https://cdn.jsdelivr.net/npm/axios@1.9.0/+esm"
+        }
+    }
+    </script>
     <title>Productos · KoffTea</title>
+    <script src="js/api-check.js"></script>
 </head>
 <body>
 
@@ -125,12 +106,7 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 
         <div class="filter-group">
             <h3>Categoría</h3>
-            <?php foreach ($categories as $cat): ?>
-                <label>
-                    <input type="checkbox" class="filter-cat" value="<?= htmlspecialchars($cat) ?>">
-                    <?= htmlspecialchars($cat) ?>
-                </label>
-            <?php endforeach; ?>
+            <div id="filter-categories"></div>
         </div>
 
         <div class="filter-group">
@@ -161,67 +137,11 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
     <!-- Productos -->
     <section class="products-area" aria-live="polite">
         <h1>Todos los productos</h1>
-        <p class="products-count" id="products-count"><?= count($productes) ?> productos</p>
+        <p class="products-count" id="products-count">Cargando...</p>
 
         <div class="products-grid" id="products-grid">
-            <?php foreach ($productes as $p):
-                $inStock  = (int)$p['Stock'] > 0;
-                $img      = getImg($catImg, $p['Categoria']);
-                $nombre   = htmlspecialchars($p['Nombre'],           ENT_QUOTES, 'UTF-8');
-                $cat      = htmlspecialchars($p['Categoria'],        ENT_QUOTES, 'UTF-8');
-                $origen   = htmlspecialchars($p['ProcedenciaOrigen'],ENT_QUOTES, 'UTF-8');
-                $formato  = htmlspecialchars($p['Formato'],          ENT_QUOTES, 'UTF-8');
-                $precio   = number_format((float)$p['Precio'], 2, ',', '.');
-                $id       = htmlspecialchars($p['ID'],               ENT_QUOTES, 'UTF-8');
-            ?>
-            <article class="product-card <?= $inStock ? '' : 'out-of-stock' ?>"
-                     data-cat="<?= $cat ?>"
-                     data-precio="<?= (float)$p['Precio'] ?>"
-                     data-stock="<?= (int)$p['Stock'] ?>">
-                <div class="card-img">
-                    <img src="<?= $img ?>" alt="<?= $nombre ?>" loading="lazy">
-                    <span class="badge-categoria"><?= $cat ?></span>
-                    <?php if (!$inStock): ?>
-                        <span class="badge-stock-out">Sin stock</span>
-                    <?php endif; ?>
-                </div>
-                <div class="card-body">
-                    <p class="card-nombre">
-                        <a class="card-link" href="producto.php?id=<?= $id ?>"><?= $nombre ?></a>
-                    </p>
-                    <p class="card-origen"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <?= $origen ?></p>
-                    <p class="card-stars" aria-label="Valoración: 4 de 5 estrellas"><?= stars(4) ?></p>
-                    <p class="card-precio"><?= $precio ?> €</p>
-                    <p class="card-formato"><?= $formato ?></p>
-                </div>
-                <div class="card-actions">
-                    <button class="btn-cart"
-                            data-id="<?= $id ?>"
-                            data-nombre="<?= $nombre ?>"
-                            data-precio="<?= (float)$p['Precio'] ?>"
-                            data-categoria="<?= $cat ?>"
-                            <?= $inStock ? '' : 'disabled' ?>
-                            onclick="addToCart({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
-                            aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "$nombre sin stock" ?>">
-                        <?php if ($inStock): ?>
-                            <i class="fa-solid fa-cart-plus" aria-hidden="true"></i> Añadir al carrito
-                        <?php else: ?>
-                            <i class="fa-solid fa-ban" aria-hidden="true"></i> Sin stock
-                        <?php endif; ?>
-                    </button>
-                    <button class="btn-wishlist"
-                            data-id="<?= $id ?>"
-                            onclick="toggleWishlist({id:'<?= $id ?>',nombre:'<?= addslashes($p['Nombre']) ?>',precio:<?= (float)$p['Precio'] ?>,categoria:'<?= addslashes($p['Categoria']) ?>'})"
-                            aria-label="Añadir <?= $nombre ?> a lista de deseos">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-            </article>
-            <?php endforeach; ?>
-
-            <div class="empty-state" id="empty-state" hidden>
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <p>Ningún producto coincide con los filtros seleccionados.</p>
+            <div class="grid-loading">
+                <i class="fa-solid fa-spinner fa-spin"></i> Cargando productos...
             </div>
         </div>
     </section>
@@ -238,77 +158,13 @@ $categories = array_values(array_unique(array_column($productes, 'Categoria')));
 
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
+<script type="module" src="js/productes.js"></script>
 <script>
-// ── Filtrado ──
-const cards      = Array.from(document.querySelectorAll('.product-card'));
-const emptyState = document.getElementById('empty-state');
-const countEl    = document.getElementById('products-count');
-
-function applyFilters() {
-    const cats      = [...document.querySelectorAll('.filter-cat:checked')].map(c => c.value);
-    const minPrice  = parseFloat(document.getElementById('price-min').value) || 0;
-    const maxPrice  = parseFloat(document.getElementById('price-max').value) || Infinity;
-    const onlyStock = document.getElementById('filter-stock').checked;
-    const query     = document.getElementById('search-input')?.value.toLowerCase() || '';
-
-    let visible = 0;
-    cards.forEach(card => {
-        const cat    = card.dataset.cat;
-        const precio = parseFloat(card.dataset.precio);
-        const stock  = parseInt(card.dataset.stock);
-        const nombre = card.querySelector('.card-nombre').textContent.toLowerCase();
-
-        const okCat   = cats.length === 0 || cats.includes(cat);
-        const okPrice = precio >= minPrice && precio <= maxPrice;
-        const okStock = !onlyStock || stock > 0;
-        const okQuery = !query || nombre.includes(query);
-
-        const show = okCat && okPrice && okStock && okQuery;
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-    });
-
-    emptyState.style.display = visible > 0 ? 'none' : '';
-    countEl.textContent = `${visible} productos`;
-}
-
-document.querySelectorAll('.filter-cat, #filter-stock').forEach(el =>
-    el.addEventListener('change', applyFilters)
-);
-document.getElementById('price-min').addEventListener('input', applyFilters);
-document.getElementById('price-max').addEventListener('input', applyFilters);
-document.getElementById('search-input')?.addEventListener('input', applyFilters);
-
-document.getElementById('btn-clear-filters').addEventListener('click', () => {
-    document.querySelectorAll('.filter-cat').forEach(c => c.checked = false);
-    document.getElementById('price-min').value = '';
-    document.getElementById('price-max').value = '';
-    document.getElementById('filter-stock').checked = false;
-    if (document.getElementById('search-input')) document.getElementById('search-input').value = '';
-    applyFilters();
-});
-
 function handleSearch(e) {
     e.preventDefault();
-    applyFilters();
+    const q = document.getElementById('search-input').value.trim();
+    if (q) window.location.href = 'productes.php?q=' + encodeURIComponent(q);
 }
-
-// ── Inicializar desde parámetros URL ──
-(function() {
-    const p = new URLSearchParams(window.location.search);
-    const cat = p.get('cat');
-    const q   = p.get('q');
-    if (cat) {
-        document.querySelectorAll('.filter-cat').forEach(cb => {
-            if (cb.value === cat) cb.checked = true;
-        });
-    }
-    if (q) {
-        const si = document.getElementById('search-input');
-        if (si) si.value = q;
-    }
-    if (cat || q) applyFilters();
-})();
 </script>
 </body>
 </html>

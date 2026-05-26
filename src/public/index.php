@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/productes.css">
     <title>KoffTea Times</title>
+    <script src="js/api-check.js"></script>
 </head>
 <body>
 

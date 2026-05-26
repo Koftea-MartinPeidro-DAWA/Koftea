@@ -1,37 +1,8 @@
 <?php
 session_start();
-
-$id       = $_GET['id'] ?? '';
-$dataFile = __DIR__ . '/data/productos.json';
-$data     = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
-$productes = $data['productes'] ?? [];
-
-$producto = null;
-foreach ($productes as $p) {
-    if ($p['ID'] === $id) { $producto = $p; break; }
-}
-if (!$producto) { header('Location: productes.php'); exit; }
-
-$catImg = [
-    'Grano'    => 'images/category/grano.jpg',
-    'Molido'   => 'images/category/molido.jpg',
-    'Cápsula'  => 'images/category/capsula.jpg',
-    'Cápsulas' => 'images/category/capsula.jpg',
-    'Té'       => 'images/category/te.jpg',
-    'Te'       => 'images/category/te.jpg',
-];
-
-$img      = $catImg[$producto['Categoria']] ?? 'images/category/grano.jpg';
-$inStock  = (int)$producto['Stock'] > 0;
-$usuario  = $_SESSION['usuari'] ?? null;
-$nombre   = htmlspecialchars($producto['Nombre'],            ENT_QUOTES, 'UTF-8');
-$cat      = htmlspecialchars($producto['Categoria'],         ENT_QUOTES, 'UTF-8');
-$origen   = htmlspecialchars($producto['ProcedenciaOrigen'], ENT_QUOTES, 'UTF-8');
-$formato  = htmlspecialchars($producto['Formato'],           ENT_QUOTES, 'UTF-8');
-$desc     = htmlspecialchars($producto['Descripcion'] ?? '', ENT_QUOTES, 'UTF-8');
-$precio   = number_format((float)$producto['Precio'], 2, ',', '.');
-$intens   = max(0, min(5, (int)$producto['Intensidad']));
-$dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
+$id      = $_GET['id'] ?? '';
+$usuario = $_SESSION['usuari'] ?? null;
+if (!$id) { header('Location: productes.php'); exit; }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,7 +14,15 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/productes.css">
     <link rel="stylesheet" href="css/producto.css">
-    <title><?= $nombre ?> · KoffTea</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "axios": "https://cdn.jsdelivr.net/npm/axios@1.9.0/+esm"
+        }
+    }
+    </script>
+    <title>Producto · KoffTea</title>
+    <script src="js/api-check.js"></script>
 </head>
 <body>
 
@@ -125,62 +104,43 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
     <span aria-hidden="true">›</span>
     <a href="productes.php">Productos</a>
     <span aria-hidden="true">›</span>
-    <span aria-current="page"><?= $nombre ?></span>
+    <span id="breadcrumb-nombre" aria-current="page"></span>
 </nav>
 
     <!-- Detalle producto -->
     <div class="producto-detalle">
         <div class="producto-img-wrap">
-            <img src="<?= $img ?>" alt="<?= $nombre ?>">
+            <img id="producto-img" src="" alt="">
         </div>
 
         <div class="producto-info">
-            <span class="producto-badge"><?= $cat ?></span>
-            <h1 class="producto-nombre"><?= $nombre ?></h1>
+            <span class="producto-badge" id="producto-badge"></span>
+            <h1 class="producto-nombre" id="producto-nombre"></h1>
 
             <p class="producto-stars">
                 <span id="avg-stars">☆☆☆☆☆</span>
                 <span id="avg-count"></span>
             </p>
 
-            <p class="producto-precio"><?= $precio ?> €</p>
+            <p class="producto-precio" id="producto-precio"></p>
 
             <div class="producto-meta">
-                <span><i class="fa-solid fa-location-dot"></i> <?= $origen ?></span>
-                <span><i class="fa-solid fa-box"></i> <?= $formato ?></span>
-                <span><i class="fa-solid fa-fire-flame-curved"></i>
-                    Intensidad: <span class="intensidad-dots"><?= $dots ?></span>
-                </span>
+                <span><i class="fa-solid fa-location-dot"></i> <span id="producto-origen"></span></span>
+                <span><i class="fa-solid fa-box"></i> <span id="producto-formato"></span></span>
                 <span>
-                    <?php if ($inStock): ?>
-                        <i class="fa-solid fa-circle-check" style="color:#4a7c4a"></i>
-                        <span class="producto-stock-ok">En stock (<?= (int)$producto['Stock'] ?> uds.)</span>
-                    <?php else: ?>
-                        <i class="fa-solid fa-circle-xmark" style="color:#c62828"></i>
-                        <span class="producto-stock-out">Sin stock</span>
-                    <?php endif; ?>
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    Intensidad: <span class="intensidad-dots" id="producto-intensidad"></span>
                 </span>
+                <span id="producto-stock"></span>
             </div>
 
-            <?php if ($desc): ?>
-                <p class="producto-desc"><?= $desc ?></p>
-            <?php endif; ?>
+            <p class="producto-desc" id="producto-desc" hidden></p>
 
             <div class="detalle-actions">
-                <button class="btn-cart-detalle"
-                        <?= $inStock ? '' : 'disabled' ?>
-                        onclick="addToCart({id:'<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>',nombre:'<?= addslashes($producto['Nombre']) ?>',precio:<?= (float)$producto['Precio'] ?>,categoria:'<?= addslashes($producto['Categoria']) ?>'})"
-                        aria-label="<?= $inStock ? "Añadir $nombre al carrito" : "Sin stock" ?>">
-                    <?php if ($inStock): ?>
-                        <i class="fa-solid fa-cart-plus"></i> Añadir al carrito
-                    <?php else: ?>
-                        <i class="fa-solid fa-ban"></i> Sin stock
-                    <?php endif; ?>
+                <button class="btn-cart-detalle" id="btn-cart-detalle" disabled>
+                    <i class="fa-solid fa-spinner fa-spin"></i> Cargando...
                 </button>
-                <button class="btn-wishlist-detalle"
-                        data-id="<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>"
-                        onclick="toggleWishlist({id:'<?= htmlspecialchars($producto['ID'], ENT_QUOTES) ?>',nombre:'<?= addslashes($producto['Nombre']) ?>',precio:<?= (float)$producto['Precio'] ?>,categoria:'<?= addslashes($producto['Categoria']) ?>'})"
-                        aria-label="Añadir <?= $nombre ?> a lista de deseos">
+                <button class="btn-wishlist-detalle" id="btn-wishlist-detalle">
                     <i class="fa-regular fa-heart"></i>
                 </button>
             </div>
@@ -191,15 +151,20 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
     <section class="comentarios-section">
         <h2><i class="fa-regular fa-comments"></i> Opiniones del producto</h2>
 
-        <!-- Formulario (solo usuarios autenticados) -->
         <?php if ($usuario): ?>
         <div class="comentario-form">
             <h3>Deja tu opinión</h3>
             <div class="star-selector" role="radiogroup" aria-label="Valoración">
-                <?php for ($i = 5; $i >= 1; $i--): ?>
-                    <input type="radio" id="star<?= $i ?>" name="valoracion" value="<?= $i ?>">
-                    <label for="star<?= $i ?>" title="<?= $i ?> estrella<?= $i > 1 ? 's' : '' ?>">★</label>
-                <?php endfor; ?>
+                <input type="radio" id="star5" name="valoracion" value="5">
+                <label for="star5" title="5 estrellas">★</label>
+                <input type="radio" id="star4" name="valoracion" value="4">
+                <label for="star4" title="4 estrellas">★</label>
+                <input type="radio" id="star3" name="valoracion" value="3">
+                <label for="star3" title="3 estrellas">★</label>
+                <input type="radio" id="star2" name="valoracion" value="2">
+                <label for="star2" title="2 estrellas">★</label>
+                <input type="radio" id="star1" name="valoracion" value="1">
+                <label for="star1" title="1 estrella">★</label>
             </div>
             <textarea id="comentario-texto" placeholder="Escribe tu opinión sobre este producto..." rows="3"></textarea>
             <button id="btn-publicar" class="btn-publicar" onclick="submitComment()">
@@ -214,11 +179,7 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
         </p>
         <?php endif; ?>
 
-        <div id="comentarios-lista">
-            <div class="comentarios-empty">
-                <i class="fa-solid fa-spinner fa-spin"></i> Cargando opiniones...
-            </div>
-        </div>
+        <div id="comentarios-lista"></div>
     </section>
 
 </main>
@@ -231,12 +192,12 @@ $dots     = str_repeat('●', $intens) . str_repeat('○', 5 - $intens);
     </p>
 </footer>
 
-<!-- ID oculto para JS -->
-<input type="hidden" id="producto-id" value="<?= htmlspecialchars($id, ENT_QUOTES) ?>">
+<input type="hidden" id="producto-id" value="">
 
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
 <script src="js/comments.js"></script>
+<script type="module" src="js/producto.js"></script>
 <script>
 function handleSearch(e) {
     e.preventDefault();

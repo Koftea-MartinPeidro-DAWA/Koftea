@@ -347,6 +347,34 @@
     outline-offset: 2px;
 }
 
+/* ── Grid loading / error ── */
+.grid-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #a08060;
+    font-size: .95rem;
+}
+.grid-loading i { margin-right: .5rem; }
+
+.api-error {
+    grid-column: 1 / -1;
+    background: #fff5f5;
+    border: 1px solid #e57373;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    color: #c62828;
+    font-size: .9rem;
+    text-align: center;
+}
+.api-error i { margin-right: .4rem; }
+.api-error code {
+    background: #fce8e8;
+    padding: .1rem .4rem;
+    border-radius: 4px;
+    font-size: .85rem;
+}
+
 /* ── Empty state ── */
 .empty-state {
     grid-column: 1 / -1;
